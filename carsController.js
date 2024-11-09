@@ -5,6 +5,12 @@ const registrarVehiculo = (req, res) => {
     carsModel.registrarVehiculo(vehiculo, (error, result) => {
         if (error) {
             console.log(error);
+            if(error === "Vehiculo Existente"){
+                return res.status(500).json({ mensaje: 'Vehiculo ya se encuentra registrado' });
+            }else if(error === "Error Consulta"){
+                return res.status(500).json({ mensaje: 'Error en la consulta' });
+            }
+
             return res.status(500).json({ mensaje: 'Error en la base de datos' });
         }
         return res.json({ mensaje: 'Vehiculo registrado' });
