@@ -5,5 +5,6 @@ const carsController = require('./carsController');
 router.post('/registrar', carsController.registrarVehiculo);
 router.get('/vehiculos', carsController.obtenerVehiculos);
 router.get('/vehiculos/:placa', carsController.obtenerVehiculoPorPlaca);
+router.put('/vehiculos', carsController.actualizarVehiculo);
 
 module.exports = router;

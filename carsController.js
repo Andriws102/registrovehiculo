@@ -42,8 +42,21 @@ const obtenerVehiculoPorPlaca = (req, res) => {
     });
 }
 
+const actualizarVehiculo = (req, res) => {
+    const vehiculo = req.body;
+    carsModel.actualizarVehiculo(vehiculo, (error, result) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).json({ mensaje: 'Error en la base de datos' });
+        }
+        return res.json({ mensaje: 'Vehiculo actualizado correctamente' });
+    });
+    
+}
+
 module.exports = {
     registrarVehiculo,
     obtenerVehiculos,
-    obtenerVehiculoPorPlaca
+    obtenerVehiculoPorPlaca,
+    actualizarVehiculo
 }
