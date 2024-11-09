@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () =>{
 const formVehiculo = document.getElementById('formVehiculo');
 const mensaje = document.getElementById('mensaje');
+const consultar = document.getElementById('Consultar');
 
 if(formVehiculo){
     formVehiculo.addEventListener('submit', (e) => {
@@ -38,6 +39,37 @@ if(formVehiculo){
             mensaje.innerHTML = 'Error al registrar el vehículo';
         })
     });
+}
+
+const obtenerVehiculo = () => {
+    const placa = document.getElementById("placa");
+    const marca = document.getElementById('marca');
+    const modelo = document.getElementById('modelo');
+    const color = document.getElementById('color');
+    const anio = document.getElementById('anio');
+    const precio = document.getElementById('precio');
+
+    fetch(`http://localhost:4000/vehiculos/${placa.value}`)
+    .then(response => { 
+        if(!response.ok){
+            mensaje.innerHTML = 'Error al obtener vehiculo';
+        }
+        return response.json();
+    })
+    .then(vehiculo => {
+        if(!vehiculo.mensaje){
+            console.log(vehiculo);
+            marca.value = vehiculo.marca;
+            modelo.value = vehiculo.modelo;
+            color.value = vehiculo.color;
+            anio.value = vehiculo.year;
+            precio.value = vehiculo.precio;
+        }        
+    });
+};
+
+if(consultar){
+    consultar.addEventListener('click', obtenerVehiculo);
 }
 
 });

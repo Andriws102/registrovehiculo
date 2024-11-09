@@ -27,7 +27,23 @@ const obtenerVehiculos = (req, res) => {
     });
 }
 
+const obtenerVehiculoPorPlaca = (req, res) => {
+    const placa = req.params.placa;
+    carsModel.obtenerVehiculoPorPlaca(placa, (error, vehiculo) => {
+        if(error) {
+            return res.status(500).json({mensaje: "Error obteniendo el vehiculo"})
+        }else{
+            if(vehiculo == undefined){
+                return res.status(201).json({mensaje:"No existe"});
+            }else{
+                return res.status(200).json(vehiculo);
+            }
+        }
+    });
+}
+
 module.exports = {
     registrarVehiculo,
-    obtenerVehiculos
+    obtenerVehiculos,
+    obtenerVehiculoPorPlaca
 }

@@ -10,27 +10,30 @@ const connection = mysql.createConnection({
 
 const registrarVehiculo = (vehiculo, callback) => {
     const { placa, marca, modelo, color, anio, precio } = vehiculo;
-    
+    let carExists = false;
     /*connection.query(`SELECT * FROM vehiculo WHERE placa = '${placa}'`, (err, results) => {
         if(err){
             return callback("Error Consulta", null);
         } else if (results.length > 0){
+            carExists = true;
             return callback("Vehiculo Existente", null);
         }
     });*/
 
-    connection.query(
-        `INSERT INTO vehiculo (placa, marca, modelo, color, year, precio) VALUES ('${placa}', '${marca}', '${modelo}', '${color}', '${anio}','${precio}')`,
-        (err, results) => {
-            if (err) {
-                console.log(err);
-                callback(err, null);
-            } else {
-                console.log(results);
-                callback(null, results);
+    if(!carExists){
+        connection.query(
+            `INSERT INTO vehiculo (placa, marca, modelo, color, year, precio) VALUES ('${placa}', '${marca}', '${modelo}', '${color}', '${anio}','${precio}')`,
+            (err, results) => {
+                if (err) {
+                    console.log(err);
+                    callback(err, null);
+                } else {
+                    console.log(results);
+                    callback(null, results);
+                }
             }
-        }
-    );
+        );
+}
 }
 
 const obtenerVehiculos = (callback) => {
@@ -43,7 +46,18 @@ const obtenerVehiculos = (callback) => {
     });
 };
 
+const obtenerVehiculoPorPlaca = (placa, callback) => {
+    connection.query(`SELECT * FROM vehiculo WHERE placa = '${placa}'`, (err, results) => {
+        if(err){
+            callback(err,null);
+        }else {
+            callback(null, results[0]);
+        }
+    });
+}
+
 module.exports = {
     registrarVehiculo,
-    obtenerVehiculos
+    obtenerVehiculos,
+    obtenerVehiculoPorPlaca
 }
