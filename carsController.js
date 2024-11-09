@@ -12,6 +12,16 @@ const registrarVehiculo = (req, res) => {
     
 }
 
+const obtenerVehiculos = (req, res) => {
+    carsModel.obtenerVehiculos((error, vehiculos) => {
+        if(error){
+            return res.status(500).json({ mensaje: "Error obteniendo los vehiculos"});
+        }
+        return res.status(200).json(vehiculos);
+    });
+}
+
 module.exports = {
-    registrarVehiculo
+    registrarVehiculo,
+    obtenerVehiculos
 }

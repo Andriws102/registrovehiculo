@@ -24,6 +24,17 @@ const registrarVehiculo = (vehiculo, callback) => {
     );
 }
 
+const obtenerVehiculos = (callback) => {
+    connection.query('SELECT * FROM vehiculo', (err, results) => {
+        if(err){
+            callback(err, null);
+        }else{
+            callback(null, results);
+        }
+    });
+};
+
 module.exports = {
-    registrarVehiculo
+    registrarVehiculo,
+    obtenerVehiculos
 }
